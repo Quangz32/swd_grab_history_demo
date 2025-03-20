@@ -3,62 +3,63 @@ package com.grab.history;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Driver implements IObservable{
-    private String name;
-    private String phone;
-    private Order currentOrder;
-    private List<IObserver> observers;
+public class Driver implements IObservable {
 
-    public Driver(String name, String phone) {
-        this.name = name;
-        this.phone = phone;
-        this.observers = new ArrayList<>();
-    }
+  private final String name;
+  private final String phone;
+  private Order currentOrder;
+  private final List<IObserver> observers;
 
-    public String getName() {
-        return name;
-    }
+  public Driver(String name, String phone) {
+    this.name = name;
+    this.phone = phone;
+    this.observers = new ArrayList<>();
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Order getCurrentOrder() {
-        return currentOrder;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public void confirmOrder(Order order) {
-        this.currentOrder = order;
-        order.setDriver(this);
-        order.setStatus("CONFIRMED");
-        notifyObservers();
-    }
+  public Order getCurrentOrder() {
+    return currentOrder;
+  }
 
-    public void pickupClient(Order order) {
-        order.setStatus("PICKED_UP");
-        notifyObservers();
-    }
+  public void confirmOrder(Order order) {
+    this.currentOrder = order;
+    order.setDriver(this);
+    order.setStatus("CONFIRMED");
+    notifyObservers();
+  }
 
-    public void finishOrder(Order order) {
-        order.setStatus("COMPLETED");
-        notifyObservers();
-        this.currentOrder = null;
-    }
+  public void pickupClient(Order order) {
+    order.setStatus("PICKED_UP");
+    notifyObservers();
+  }
 
-    @Override
-    public void registerObserver(IObserver observer) {
-        observers.add(observer);
-    }
+  public void finishOrder(Order order) {
+    order.setStatus("COMPLETED");
+    notifyObservers();
+    this.currentOrder = null;
+  }
 
-    @Override
-    public void removeObserver(IObserver observer) {
-        observers.remove(observer);
-    }
+  @Override
+  public void registerObserver(IObserver observer) {
+    observers.add(observer);
+  }
 
-    @Override
-    public void notifyObservers() {
-        for (IObserver observer : observers) {
-            observer.update();
-        }
+  @Override
+  public void removeObserver(IObserver observer) {
+    observers.remove(observer);
+  }
+
+  @Override
+  public void notifyObservers() {
+    for (IObserver observer : observers) {
+      observer.update();
     }
+  }
 } 

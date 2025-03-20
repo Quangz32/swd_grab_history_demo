@@ -3,53 +3,54 @@ package com.grab.history;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client implements IObservable{
-    private String name;
-    private String phone;
-    private List<Order> orders;
-    private List<IObserver> observers;
+public class Client implements IObservable {
 
-    public Client(String name, String phone) {
-        this.name = name;
-        this.phone = phone;
-        this.orders = new ArrayList<>();
-        this.observers = new ArrayList<>();
-    }
+  private final String name;
+  private final String phone;
+  private final List<Order> orders;
+  private final List<IObserver> observers;
 
-    public String getName() {
-        return name;
-    }
+  public Client(String name, String phone) {
+    this.name = name;
+    this.phone = phone;
+    this.orders = new ArrayList<>();
+    this.observers = new ArrayList<>();
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public Order createOrder(String type) {
-        Order order = new Order(type);
-        order.setClient(this);
-        orders.add(order);
-        notifyObservers();
-        return order;
-    }
+  public List<Order> getOrders() {
+    return orders;
+  }
 
-    @Override
-    public void registerObserver(IObserver observer) {
-        observers.add(observer);
-    }
+  public Order createOrder(String type) {
+    Order order = new Order(type);
+    order.setClient(this);
+    orders.add(order);
+    notifyObservers();
+    return order;
+  }
 
-    @Override
-    public void removeObserver(IObserver observer) {
-        observers.remove(observer);
-    }
+  @Override
+  public void registerObserver(IObserver observer) {
+    observers.add(observer);
+  }
 
-    @Override
-    public void notifyObservers() {
-        for (IObserver observer : observers) {
-            observer.update();
-        }
+  @Override
+  public void removeObserver(IObserver observer) {
+    observers.remove(observer);
+  }
+
+  @Override
+  public void notifyObservers() {
+    for (IObserver observer : observers) {
+      observer.update();
     }
+  }
 }
